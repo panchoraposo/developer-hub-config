@@ -369,5 +369,5 @@ upstream:
   #     path: /metrics
   ## --- MONITORING ---      
 
-route:
-  host: backstage-developer-hub.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
+#route:
+#  host: backstage.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
