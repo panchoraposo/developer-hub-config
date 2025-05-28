@@ -232,14 +232,14 @@ upstream:
       #   generator:
       #     runIn: local
       ## --- TECHDOCS_CONFIG ---
-      argocd:
-        appLocatorMethods:
-          - type: 'config'
-            instances:
-              - name: main
-                url: https://rhdh-gitops-server-rhdh-gitops.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
-                username: admin
-                password: ${ARGOCD_PASSWORD}
+      #argocd:
+      #  appLocatorMethods:
+      #    - type: 'config'
+      #      instances:
+      #        - name: main
+      #          url: https://rhdh-gitops-server-rhdh-gitops.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
+      #          username: admin
+      #          password: ${ARGOCD_PASSWORD}
       kubernetes:
         serviceLocatorMethod:
           type: multiTenant
