@@ -1,6 +1,6 @@
 global:
-  clusterRouterBase: {{ cluster_subdomain }}
-  host: {{ backstage_host }}
+  clusterRouterBase: apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
+  host: backstage-backstage.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
   dynamic:
     includes:
       - dynamic-plugins.default.yaml
@@ -57,7 +57,7 @@ global:
       #   pluginConfig:
       #     orchestrator:
       #       dataIndexService:
-      #         url: http://{{ orchestrator_sonataflow_data_index_service }}
+      #         url: http://sonataflow-platform-data-index-service.orchestrator
       # - disabled: false
       #   package: "@redhat/backstage-plugin-orchestrator@1.5.1"
       #   integrity: sha512-7VOe+XGTUzrdO/av0DNHbydOjB3Lo+XdCs6fj3JVODLP7Ypd3GXHf/nssYxG5ZYC9F1t9MNeguE2bZOB6ckqTA==
@@ -82,7 +82,7 @@ global:
       #   pluginConfig:
       #     orchestrator:
       #       dataIndexService:
-      #         url: http://{{ orchestrator_sonataflow_data_index_service }}
+      #         url: http://sonataflow-platform-data-index-service.orchestrator
       # - disabled: false
       #   package: "./dynamic-plugins/dist/backstage-plugin-notifications"
       # - disabled: false
@@ -129,7 +129,7 @@ upstream:
       #     oidc:
       #       production:
       #         prompt: auto
-      #         metadataUrl: https://{{ keycloak_host }}/realms/{{ keycloak_realm }}/.well-known/openid-configuration
+      #         metadataUrl: https://sso.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com/realms/backstage/.well-known/openid-configuration
       #         clientId: ${OAUTH_CLIENT_ID}
       #         clientSecret: ${OAUTH_CLIENT_SECRET}
       #         signIn:
@@ -151,7 +151,7 @@ upstream:
         #   script-src-elem: ["'self'", "'unsafe-inline'", "'unsafe-eval'"]
         #   connect-src: ["'self'", 'http:', 'https:', 'data:']
         # cors:
-        #   origin: https://{{ backstage_host }}
+        #   origin: https://backstage-backstage.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com
         # database:
         #   client: pg
         #   connection:
@@ -165,11 +165,11 @@ upstream:
           host: 0.0.0.0        
 
       integrations:
-        gitlab:
-          - apiBaseUrl: https://{{ gitlab_host }}/api/v4
-            baseUrl: https://{{ gitlab_host }}
-            host: {{ gitlab_host }}
-            token: ${GITLAB_TOKEN}          
+        #gitlab:
+        #  - apiBaseUrl: https://gitlab-gitlab.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com/api/v4
+        #    baseUrl: https://gitlab-gitlab.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com
+        #    host: gitlab-gitlab.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com
+        #    token: ${GITLAB_TOKEN}          
       catalog:
         rules:
           - allow: [Component, System, API, Resource, Location, Template, Domain]
@@ -179,7 +179,7 @@ upstream:
           ## --- GITLAB_CATALOG_PROVIDER ---
           # gitlab:
           #   default:
-          #     host: gitlab-gitlab.{{ cluster_subdomain }}
+          #     host: gitlab-gitlab.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com
           #     branch: main
           #     fallbackBranch: master
           #     skipForkedRepos: true
@@ -193,7 +193,7 @@ upstream:
 
           ## --- AUTO_DISCOVERY_IMPORT_COMPONENTS ---
           #   all-location-entity:
-          #     host: gitlab-gitlab.{{ cluster_subdomain }}
+          #     host: gitlab-gitlab.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com
           #     filters:
           #       branch: main
           #     skipForkedRepos: true
@@ -213,11 +213,11 @@ upstream:
           ## --- KEYCLOAK_CATALOG_PROVIDERS ---
           # keycloakOrg:
           #   default:
-          #     baseUrl: https://{{ keycloak_host }}
-          #     realm: {{ keycloak_realm }}
-          #     loginRealm: {{ keycloak_login_realm }}
-          #     clientId: {{ keycloak_client_id }}
-          #     clientSecret: {{ keycloak_client_secret }}
+          #     baseUrl: https://sso.apps.cluster-nfsdw.nfsdw.sandbox3272.opentlc.com
+          #     realm: backstage
+          #     loginRealm: backstage
+          #     clientId: backstage-plugin
+          #     clientSecret: rXbhC0vzDzBZGQ9oZRXkAwtaNwgDyFAv
           #     schedule:
           #       frequency: { minutes: 2 }
           #       timeout: { minutes: 1 }
@@ -237,7 +237,7 @@ upstream:
           - type: 'config'
             instances:
               - name: main
-                url: https://{{ argocd_host }}
+                url: https://rhdh-gitops-server-rhdh-gitops.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
                 username: admin
                 password: ${ARGOCD_PASSWORD}
       kubernetes:
@@ -246,7 +246,7 @@ upstream:
         clusterLocatorMethods:
           - clusters:
               - name: dev-cluster
-                url: {{ kubernetes_api_url }}
+                url: https://api.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com:6443:6443
                 authProvider: serviceAccount
                 skipTLSVerify: true
                 serviceAccountToken: ${KUBERNETES_SA_TOKEN}
@@ -274,7 +274,7 @@ upstream:
       - name: NODE_OPTIONS
         value: --no-node-snapshot
       - name: BACKEND_SECRET
-        value: {{ backstage_backend_secret }}
+        value: d3d1RkdxVlJyTnJZc0tiZnBmVHA5dnBu
       - name: NODE_TLS_REJECT_UNAUTHORIZED
         value: "0"
     ## --- RBAC --- #
@@ -290,18 +290,18 @@ upstream:
       - name: dynamic-plugins
         configMap:
           defaultMode: 420
-          name: '{{ '{{ printf "%s-dynamic-plugins" .Release.Name }}' }}'
+          name: '{{ printf "%s-dynamic-plugins" .Release.Name }}'
           optional: true
       - name: dynamic-plugins-npmrc
         secret:
           defaultMode: 420
           optional: true
-          secretName: '{{ '{{ printf "%s-dynamic-plugins-npmrc" .Release.Name }}' }}'
+          secretName: '{{ printf "%s-dynamic-plugins-npmrc" .Release.Name }}'
       - name: dynamic-plugins-registry-auth
         secret:
           defaultMode: 416
           optional: true
-          secretName: '{{ '{{ printf "%s-dynamic-plugins-registry-auth" .Release.Name }}' }}'
+          secretName: '{{ printf "%s-dynamic-plugins-registry-auth" .Release.Name }}'
       - name: npmcacache
         emptyDir: {}
       - name: temp
@@ -329,7 +329,7 @@ upstream:
           runAsNonRoot: true
           seccompProfile:
             type: "RuntimeDefault"
-        image: '{{ '{{ include "backstage.image" . }}' }}'
+        image: '{{ include "backstage.image" . }}'
         command:
           - ./install-dynamic-plugins.sh
           - /dynamic-plugins-root
@@ -370,4 +370,4 @@ upstream:
   ## --- MONITORING ---      
 
 route:
-  host: {{ backstage_host }}
+  host: backstage-backstage.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
