@@ -98,7 +98,7 @@ upstream:
     auth:
       username: postgres
       database: backstage
-      existingSecret: backstage-postgresql
+      existingSecret: backstage-postgresql-postgresql
       secretKeys:
         userPasswordKey: postgres-password
   backstage:
