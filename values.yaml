@@ -370,4 +370,4 @@ upstream:
   ## --- MONITORING ---      
 
 route:
-  host: backstage-backstage.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
+  host: backstage-developer-hub.apps.cluster-h8bvp.h8bvp.sandbox2712.opentlc.com
